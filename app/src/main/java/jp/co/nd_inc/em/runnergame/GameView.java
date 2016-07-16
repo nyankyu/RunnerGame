@@ -24,34 +24,41 @@ public class GameView extends View {
     // ゲーム領域の高さ（ピクセル）
     private static final float HEIGHT = 480f;
 
+    // フレームの間隔（ミリ秒）
+    private static final long INTERVAL = 20;
+
     // 画面サイズに合わせるための縮尺
-    private float mScale;
+    private float mScale = 0;
 
     public GameView(Context context) {
         super(context);
 
+
         paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(100);
+        paint.setTextSize(50);
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.scheduleAtFixedRate(
-                new Runnable() {
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
                         postInvalidate();
                     }
-                }, 0, 20, TimeUnit.MILLISECONDS);
+                }, 0, INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.i(TAG, "hoge");
         super.onDraw(canvas);
 
-        canvas.clipRect(0, 0, 800, 480);
-        canvas.drawText("hoge", 100, 100, paint);
+        if (mScale == 0) {
+            calcScale();
+        }
 
+        canvas.scale(mScale, mScale);
+        canvas.clipRect(0, 0, WIDTH, HEIGHT);
+
+        canvas.drawText("hoge", 100, 100, paint);
     }
 
     private void calcScale() {

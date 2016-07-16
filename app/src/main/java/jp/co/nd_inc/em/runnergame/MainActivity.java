@@ -1,11 +1,10 @@
-package jp.co.nd_inc.em.runnergame.activity;
+package jp.co.nd_inc.em.runnergame;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import jp.co.nd_inc.em.runnergame.GameView;
 
 public class MainActivity extends Activity {
 

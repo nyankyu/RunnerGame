@@ -1,10 +1,12 @@
 package jp.co.nd_inc.em.runnergame;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
+import android.text.method.BaseKeyListener;
 import android.view.View;
 
 import java.util.concurrent.Executors;
@@ -25,18 +27,20 @@ public class GameView extends View {
     private static final float HEIGHT = 480f;
 
     // フレームの間隔（ミリ秒）
-    private static final long INTERVAL = 20;
+    private static final long INTERVAL = 16;
 
     // 画面サイズに合わせるための縮尺
     private float mScale = 0;
 
+
+    private Player player;
+    private Ground ground;
+    private Background background;
+    private Score score;
+
+
     public GameView(Context context) {
         super(context);
-
-
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(50);
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -45,6 +49,12 @@ public class GameView extends View {
                         postInvalidate();
                     }
                 }, 0, INTERVAL, TimeUnit.MILLISECONDS);
+
+//        // 各ゲームオブジェクトを生成
+//        player = new Player(context, R.drawable.player);
+//        ground = new Ground(context, R.drawable.ground);
+//        background = new Background(context, R.drawable.background);
+//        score = new Score(context, R.drawable.score);
     }
 
     @Override
@@ -58,7 +68,11 @@ public class GameView extends View {
         canvas.scale(mScale, mScale);
         canvas.clipRect(0, 0, WIDTH, HEIGHT);
 
-        canvas.drawText("hoge", 100, 100, paint);
+//        // 各ゲームオブジェクトを描画
+//        player.draw(canvas);
+//        ground.draw(canvas);
+//        background.draw(canvas);
+//        score.draw(canvas);
     }
 
     private void calcScale() {
@@ -66,4 +80,5 @@ public class GameView extends View {
         float scaleY = getHeight() /  HEIGHT;
         mScale = (scaleX > scaleY) ? scaleY : scaleX;
     }
+
 }

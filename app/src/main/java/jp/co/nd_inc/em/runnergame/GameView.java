@@ -42,7 +42,7 @@ public class GameView extends View {
         paint.setTextSize(50);
 
         // ゲームオブジェクトの生成
-        ground = new Ground(context, R.drawable.block);
+        ground = new Ground(context);
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {

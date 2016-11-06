@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 
 class Ground {
     private Bitmap block;
-    private int[] level = {1,1,1,1,1,1,1,1,1};
+    private int[] level = {1,1,2,2,3,3,4,4,4};
     private float offsetX;
 
     Ground(Context context) {
@@ -20,6 +20,10 @@ class Ground {
         offsetX += 5;
         if (offsetX > 100) {
             offsetX = 0;
+
+            int top = level[0];
+            System.arraycopy(level, 1, level, 0, level.length-1);
+            level[level.length-1] = top;
         }
 
         for (int i = 0; i < level.length; i++) {

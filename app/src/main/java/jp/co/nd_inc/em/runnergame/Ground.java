@@ -18,6 +18,9 @@ class Ground {
 
     void draw(Canvas canvas) {
         offsetX += 5;
+        if (offsetX > 100) {
+            offsetX = 0;
+        }
 
         for (int i = 0; i < level.length; i++) {
             float x = 100 * i - offsetX;

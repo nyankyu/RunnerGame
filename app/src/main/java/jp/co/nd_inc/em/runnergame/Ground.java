@@ -17,6 +17,8 @@ class Ground {
     }
 
     void draw(Canvas canvas) {
-        canvas.drawBitmap(bitmap, positionX--, 0, null);
+        positionX -= 10;
+
+        canvas.drawBitmap(bitmap, positionX, 0, null);
     }
 }

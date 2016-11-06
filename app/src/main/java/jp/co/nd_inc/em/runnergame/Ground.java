@@ -13,14 +13,14 @@ class Ground {
     Ground(Context context, int resId) {
         bitmap = BitmapFactory.decodeResource(context.getResources(), resId);
 
-        positionX = 800f;
+        positionX = GameView.WIDTH;
     }
 
     void draw(Canvas canvas) {
         positionX -= 10;
 
         if (positionX < 0) {
-            positionX = 800f;
+            positionX = GameView.WIDTH;
         }
 
         canvas.drawBitmap(bitmap, positionX, 0, null);

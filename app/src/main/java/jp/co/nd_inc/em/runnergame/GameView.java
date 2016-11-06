@@ -23,10 +23,10 @@ public class GameView extends View {
 
 
     // ゲーム領域の幅（ピクセル）
-    private static final float WIDTH = 800f;
+    static final float WIDTH = 800f;
 
     // ゲーム領域の高さ（ピクセル）
-    private static final float HEIGHT = 480f;
+    static final float HEIGHT = 480f;
 
     // フレームの間隔（ミリ秒）
     private static final long INTERVAL = 20;

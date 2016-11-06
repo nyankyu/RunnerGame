@@ -18,6 +18,10 @@ public class GameView extends View {
     private ScheduledExecutorService scheduledExecutorService;
     private Paint paint;
 
+    // ゲームオブジェクト達
+    private Ground ground;
+
+
     // ゲーム領域の幅（ピクセル）
     private static final float WIDTH = 800f;
 
@@ -36,6 +40,9 @@ public class GameView extends View {
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(50);
+
+        // ゲームオブジェクトの生成
+        ground = new Ground(context, R.drawable.block);
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -56,6 +63,9 @@ public class GameView extends View {
 
         canvas.scale(mScale, mScale);
         canvas.clipRect(0, 0, WIDTH, HEIGHT);
+
+        // ゲームオブジェクトの描画
+        ground.draw(canvas);
     }
 
     private void calcScale() {

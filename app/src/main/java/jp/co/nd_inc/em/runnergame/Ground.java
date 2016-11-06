@@ -8,16 +8,16 @@ import android.graphics.Canvas;
 class Ground {
     private Bitmap bitmap;
 
-    private long positionX;
+    private float positionX;
 
     Ground(Context context, int resId) {
         bitmap = BitmapFactory.decodeResource(context.getResources(), resId);
 
-        positionX = 800;
+        positionX = 800f;
     }
 
     void draw(Canvas canvas) {
-        positionX -= 10;
+        positionX -= 0.1;
 
         canvas.drawBitmap(bitmap, positionX, 0, null);
     }

@@ -27,7 +27,10 @@ class Ground {
             if (Utility.lotteryMachine(0.1f)) {
                 level[level.length - 1] = -1;
             } else {
-                level[level.length - 1] = 1;
+                double rand = Math.random();
+                int newLevel = (int) Math.ceil(rand * 4);
+
+                level[level.length - 1] = newLevel;
             }
         }
 

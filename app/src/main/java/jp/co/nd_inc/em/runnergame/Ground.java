@@ -23,10 +23,17 @@ class Ground {
 
             int top = level[0];
             System.arraycopy(level, 1, level, 0, level.length-1);
-            level[level.length-1] = top;
+
+            if (Utility.lotteryMachine(0.1f)) {
+                level[level.length - 1] = -1;
+            } else {
+                level[level.length - 1] = 1;
+            }
         }
 
         for (int i = 0; i < level.length; i++) {
+            if (level[i] == -1) continue;
+
             float x = 100 * i - offsetX;
             float y = GameView.HEIGHT - 100 * level[i];
             canvas.drawBitmap(block, x, y, null);

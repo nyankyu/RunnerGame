@@ -17,29 +17,36 @@ class Ground {
     }
 
     void draw(Canvas canvas) {
+
+        // 描画位置を少しずつずらす
         offsetX += 5;
+
+        // 1ブロック分ずれたら
         if (offsetX > 100) {
             offsetX = 0;
 
-            int top = level[0];
-            System.arraycopy(level, 1, level, 0, level.length-1);
+            // 先頭に向けて1要素シフト
+            System.arraycopy(level, 1, level, 0, level.length - 1);
 
-            if (Utility.lotteryMachine(0.1f)) {
-                level[level.length - 1] = -1;
-            } else {
-                double rand = Math.random();
-                int newLevel = (int) Math.ceil(rand * 4);
-
-                level[level.length - 1] = newLevel;
-            }
+            // 最後の要素に新たなブロックを追加
+            int newLevel = makeNewLevel();
+            level[level.length - 1] = newLevel;
         }
 
+        // 全てのブロックを描画する
         for (int i = 0; i < level.length; i++) {
+            // 穴
             if (level[i] == -1) continue;
 
             float x = 100 * i - offsetX;
             float y = GameView.HEIGHT - 100 * level[i];
+
             canvas.drawBitmap(block, x, y, null);
         }
     }
+
+    private int makeNewLevel() {
+        return 1;
+    }
+
 }

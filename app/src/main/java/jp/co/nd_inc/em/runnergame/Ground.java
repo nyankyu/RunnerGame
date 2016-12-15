@@ -46,7 +46,7 @@ class Ground {
     }
 
     private int makeNewLevel() {
-        int newLevel = 1;
+        int newLevel;
         int preIndex = level.length - 2;
 
         // 1つ前が穴なら、今回は穴の左と同じ高さ。
@@ -60,6 +60,11 @@ class Ground {
             newLevel = -1;
             return newLevel;
         }
+
+        // ランダム
+        // 1,2,3,4をランダムに生成
+        double rand = Math.random();
+        newLevel = (int) Math.ceil(rand * 4);
 
         return newLevel;
     }

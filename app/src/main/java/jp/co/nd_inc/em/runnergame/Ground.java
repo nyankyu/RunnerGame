@@ -46,7 +46,15 @@ class Ground {
     }
 
     private int makeNewLevel() {
-        return 1;
+        int newLevel = 1;
+
+        // 穴
+        if (Utility.lotteryMachine(0.2f)) {
+            newLevel = -1;
+            return newLevel;
+        }
+
+        return newLevel;
     }
 
 }

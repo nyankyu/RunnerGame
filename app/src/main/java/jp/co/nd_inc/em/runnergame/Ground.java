@@ -61,10 +61,27 @@ class Ground {
             return newLevel;
         }
 
-        // ランダム
-        // 1,2,3,4をランダムに生成
-        double rand = Math.random();
-        newLevel = (int) Math.ceil(rand * 4);
+        // 2つ連続で高さを変えない
+        if (level[preIndex] != level[preIndex - 1]) {
+            newLevel = level[preIndex];
+            return newLevel;
+        }
+
+        // それぞれ0.3の確率で「1上がる」、「変わらない」、「1下がる」
+        if (Utility.lotteryMachine(0.3f)) {
+            newLevel = level[preIndex] + 1;
+        } else if (Utility.lotteryMachine(0.3f)) {
+            newLevel = level[preIndex] + -1;
+        } else {
+            newLevel = level[preIndex];
+        }
+
+        // 範囲外になっていたら修正
+        if (newLevel == 0) {
+            newLevel = 1;
+        } else if (newLevel == 5) {
+            newLevel = 4;
+        }
 
         return newLevel;
     }

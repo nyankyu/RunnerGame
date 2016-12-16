@@ -49,13 +49,13 @@ class Ground {
         int newLevel;
         int preIndex = level.length - 2;
 
-        // 1つ前が穴なら、今回は穴の左と同じ高さ。
+        // 穴の左右は同じ高さ
         if (level[preIndex] == -1) {
             newLevel = level[preIndex - 1];
             return newLevel;
         }
 
-        // 穴
+        // 穴を空ける
         if (Utility.lotteryMachine(0.2f)) {
             newLevel = -1;
             return newLevel;

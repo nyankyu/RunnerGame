@@ -67,20 +67,23 @@ class Ground {
             return newLevel;
         }
 
-        // それぞれ0.3の確率で「1上がる」、「変わらない」、「1下がる」
-        if (Utility.lotteryMachine(0.3f)) {
-            newLevel = level[preIndex] + 1;
-        } else if (Utility.lotteryMachine(0.3f)) {
-            newLevel = level[preIndex] + -1;
-        } else {
+        // 確率に従って「1上がる」、「変わらない」、「1下がる」
+        if (Utility.lotteryMachine(0.2f)) {
+            // 変わらない
             newLevel = level[preIndex];
+        } else if (Utility.lotteryMachine(0.5f /* 上がるか下がるかは半々 */)) {
+            // 1上がる
+            newLevel = level[preIndex] + 1;
+        } else {
+            // 1下がる
+            newLevel = level[preIndex] + -1;
         }
 
         // 範囲外になっていたら修正
         if (newLevel == 0) {
-            newLevel = 1;
+            newLevel = 2;
         } else if (newLevel == 5) {
-            newLevel = 4;
+            newLevel = 3;
         }
 
         return newLevel;

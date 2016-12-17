@@ -16,8 +16,15 @@ public class Player {
     private int drawCounter;
     private boolean drawBitmap1;
 
+    private enum Status {GROUND, JUMP, FREE};
+    private Status status;
 
-    Player(Context context) {
+    private Ground ground;
+
+
+    Player(Context context, Ground ground) {
+        this.ground = ground;
+
         bitmap1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.player1);
         bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.player2);
 
@@ -25,6 +32,8 @@ public class Player {
 
         drawCounter = 0;
         drawBitmap1 = true;
+
+        status = Status.GROUND;
     }
 
     void draw(Canvas canvas) {
@@ -36,6 +45,24 @@ public class Player {
             drawCounter = 0;
         }
 
+        // 設置しているか？
+        int groundPostion = ground.getLeftsidePosition();
+        if (positionY + 100 >= groundPostion) {
+            status = Status.GROUND;
+        }
+
+        // statusに合わせてpostionYを計算する。
+        switch (status) {
+            case GROUND:
+                break;
+            case JUMP:
+                calcJumpPostion();
+                break;
+            case FREE:
+                calcFreePostion();
+                break;
+        }
+
         if (drawBitmap1) {
             canvas.drawBitmap(bitmap1, 0, positionY, null);
         } else {
@@ -45,9 +72,23 @@ public class Player {
 
     public void touchDown() {
         Log.d("Play", "touchDown");
+
+        if (status == Status.GROUND) {
+            status = Status.JUMP;
+        }
     }
 
     public void touchUp() {
         Log.d("Play", "touchUp");
+
+        status = Status.FREE;
+    }
+
+    private void calcJumpPostion() {
+
+    }
+
+    private void calcFreePostion() {
+
     }
 }

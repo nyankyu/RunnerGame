@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.concurrent.Executors;
@@ -75,5 +76,18 @@ public class GameView extends View {
         float scaleX = getWidth() / WIDTH;
         float scaleY = getHeight() /  HEIGHT;
         mScale = (scaleX > scaleY) ? scaleY : scaleX;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                player.touchDown();
+                break;
+            case MotionEvent.ACTION_UP:
+                player.touchUp();
+                break;
+        }
+        return true;
     }
 }

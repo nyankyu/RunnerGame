@@ -28,12 +28,12 @@ public class Player {
         bitmap1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.player1);
         bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.player2);
 
-        positionY = 250;
+        positionY = 0;
 
         drawCounter = 0;
         drawBitmap1 = true;
 
-        status = Status.GROUND;
+        status = Status.FREE;
     }
 
     void draw(Canvas canvas) {
@@ -45,24 +45,29 @@ public class Player {
             drawCounter = 0;
         }
 
-        // 設置しているか？
+        // 接地しているか？
         int groundPostion = ground.getLeftsidePosition();
         if (positionY + 100 >= groundPostion) {
+            positionY = groundPostion - 100;
             status = Status.GROUND;
         }
 
         // statusに合わせてpostionYを計算する。
         switch (status) {
             case GROUND:
+                Log.d("Player", "status : ground");
                 break;
             case JUMP:
                 calcJumpPostion();
+                Log.d("Player", "status : jump");
                 break;
             case FREE:
                 calcFreePostion();
+                Log.d("Player", "status : free");
                 break;
         }
 
+        // 画像を描画
         if (drawBitmap1) {
             canvas.drawBitmap(bitmap1, 0, positionY, null);
         } else {
@@ -85,10 +90,10 @@ public class Player {
     }
 
     private void calcJumpPostion() {
-
+        positionY -= 10;
     }
 
     private void calcFreePostion() {
-
+        positionY += 10;
     }
 }

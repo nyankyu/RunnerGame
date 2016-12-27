@@ -80,6 +80,7 @@ public class Player {
 
         if (status == Status.GROUND) {
             status = Status.JUMP;
+            positionY -= 1;
         }
     }
 

@@ -39,18 +39,7 @@ public class Player {
     void draw(Canvas canvas) {
         drawCounter++;
 
-        if (drawCounter > 10) {
-            // フラグを反転
-            drawBitmap1 ^= true;
-            drawCounter = 0;
-        }
-
-        // 接地しているか？
-        int groundPostion = ground.getLeftsidePosition();
-        if (positionY + 100 >= groundPostion) {
-            positionY = groundPostion - 100;
-            status = Status.GROUND;
-        }
+        selectStatus();
 
         // statusに合わせてpostionYを計算する。
         switch (status) {
@@ -67,11 +56,38 @@ public class Player {
                 break;
         }
 
+        drawBitmap(canvas);
+    }
+
+    private void drawBitmap(Canvas canvas) {
+        // 描画する画像の選択
+        if (drawCounter > 10) {
+            // フラグを反転
+            drawBitmap1 ^= true;
+            drawCounter = 0;
+        }
+
         // 画像を描画
         if (drawBitmap1) {
             canvas.drawBitmap(bitmap1, 0, positionY, null);
         } else {
             canvas.drawBitmap(bitmap2, 0, positionY, null);
+        }
+    }
+
+    private void selectStatus() {
+        // ジャンプ中はtouchUpするまでジャンプし続ける
+        if (status == Status.JUMP) {
+            return;
+        }
+
+        // 接地しているか？
+        int groundPostion = ground.getLeftsidePosition();
+        if (positionY + 100 >= groundPostion) {
+            positionY = groundPostion - 100;
+            status = Status.GROUND;
+        } else {
+            status = Status.FREE;
         }
     }
 

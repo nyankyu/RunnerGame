@@ -89,7 +89,16 @@ class Ground {
         return newLevel;
     }
 
-    public int getLeftsidePosition() {
-        return (int) (GameView.HEIGHT - level[0] * 100);
+    public int getGroundPosition() {
+        int currentLevel;
+        if (offsetX < 35) {
+            currentLevel = level[0];
+        } else if (offsetX < 70){
+            currentLevel = level[0] > level[1] ? level[0] : level[1];
+        } else {
+            currentLevel = level[1];
+        }
+        return (int) (GameView.HEIGHT - currentLevel * 100);
     }
+
 }

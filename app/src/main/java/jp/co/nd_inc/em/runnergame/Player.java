@@ -82,7 +82,7 @@ public class Player {
         }
 
         // 接地しているか？
-        int groundPostion = ground.getLeftsidePosition();
+        int groundPostion = ground.getGroundPosition();
         if (positionY + 100 >= groundPostion) {
             positionY = groundPostion - 100;
             status = Status.GROUND;

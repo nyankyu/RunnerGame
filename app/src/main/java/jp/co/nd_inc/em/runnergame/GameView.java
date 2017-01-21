@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -51,6 +50,11 @@ public class GameView extends View {
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
+                        // ゲームオーバー状態なら描画しない
+                        if (player.gameover()) {
+                            return;
+                        }
+
                         postInvalidate();
                     }
                 }, 0, INTERVAL, TimeUnit.MILLISECONDS);
@@ -60,7 +64,7 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mScale == 0) {
+       if (mScale == 0) {
             calcScale();
         }
 
@@ -82,6 +86,10 @@ public class GameView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (player.gameover()) {
+                    player.reStart();
+                    break;
+                }
                 player.touchDown();
                 break;
             case MotionEvent.ACTION_UP:

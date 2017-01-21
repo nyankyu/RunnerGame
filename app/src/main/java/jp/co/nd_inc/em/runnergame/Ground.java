@@ -101,4 +101,15 @@ class Ground {
         return (int) (GameView.HEIGHT - currentLevel * 100);
     }
 
+    boolean clash(int playerPosition) {
+        if (offsetX < 30) {
+            return false;
+        }
+
+        if (playerPosition + 80 < GameView.HEIGHT - level[1] * 100) {
+            return false;
+        }
+
+        return true;
+    }
 }

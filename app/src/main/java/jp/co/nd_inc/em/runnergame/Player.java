@@ -21,6 +21,7 @@ public class Player {
 
     private Ground ground;
 
+    private boolean gameover;
 
     Player(Context context, Ground ground) {
         this.ground = ground;
@@ -34,12 +35,19 @@ public class Player {
         drawBitmap1 = true;
 
         status = Status.FREE;
+
+        gameover = false;
     }
 
     void draw(Canvas canvas) {
         drawCounter++;
 
         selectStatus();
+
+        // ブロックに衝突したらゲームオーバー
+        if (ground.clash(positionY)) {
+            gameover = true;
+        }
 
         // statusに合わせてpostionYを計算する。
         switch (status) {
@@ -112,5 +120,18 @@ public class Player {
 
     private void calcFreePostion() {
         positionY += 10;
+    }
+
+    boolean gameover() {
+        return gameover;
+    }
+
+    void reStart() {
+        positionY = 0;
+        drawCounter = 0;
+        drawBitmap1 = true;
+        status = Status.FREE;
+
+        gameover = false;
     }
 }

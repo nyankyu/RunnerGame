@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.media.SoundPool;
 import android.util.Log;
 
 
@@ -23,6 +24,10 @@ public class Player {
 
     private boolean gameover;
 
+    private SoundPool soundPool;
+    private int jumpSound;
+
+
     Player(Context context, Ground ground) {
         this.ground = ground;
 
@@ -37,6 +42,9 @@ public class Player {
         status = Status.FREE;
 
         gameover = false;
+
+        soundPool = new SoundPool.Builder().setMaxStreams(1).build();
+        soundPool.load(context, R.raw.se_jump, 1);
     }
 
     void draw(Canvas canvas) {
@@ -104,6 +112,7 @@ public class Player {
 
         if (status == Status.GROUND) {
             status = Status.JUMP;
+            soundPool.play(jumpSound, 1.0f, 1.0f, 1, 0, 1.0f);
             positionY -= 1;
         }
     }

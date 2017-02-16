@@ -21,6 +21,7 @@ public class GameView extends View {
     // ゲームオブジェクト達
     private Ground ground;
     private Player player;
+    private Score score;
 
 
     // ゲーム領域の幅（ピクセル）
@@ -45,6 +46,7 @@ public class GameView extends View {
         // ゲームオブジェクトの生成
         ground = new Ground(context);
         player = new Player(context, ground);
+        score = new Score();
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -74,6 +76,7 @@ public class GameView extends View {
         // ゲームオブジェクトの描画
         ground.draw(canvas);
         player.draw(canvas);
+        score.draw(canvas);
     }
 
     private void calcScale() {

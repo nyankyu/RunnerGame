@@ -5,15 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import java.util.Arrays;
+
 
 class Ground {
     private Bitmap block;
-    private int[] level = {1,1,2,2,3,3,4,4,4};
+    private int[] level;
     private float offsetX;
 
     Ground(Context context) {
         block = BitmapFactory.decodeResource(context.getResources(), R.drawable.block);
-        offsetX = 0;
+        level = new int[9];
+        init();
     }
 
     void draw(Canvas canvas) {
@@ -111,5 +114,10 @@ class Ground {
         }
 
         return true;
+    }
+
+    void init() {
+        offsetX = 0;
+        Arrays.fill(level, 1);
     }
 }

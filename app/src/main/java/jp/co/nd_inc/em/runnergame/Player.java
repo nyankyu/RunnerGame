@@ -25,26 +25,19 @@ public class Player {
 
     private Ground ground;
 
-    private boolean gameover;
-
     private SoundPool soundPool;
     private int jumpSound;
 
+    private GameView.Callback callback;
 
-    Player(Context context, Ground ground) {
+    Player(Context context, Ground ground, GameView.Callback callback) {
         this.ground = ground;
+        this.callback = callback;
 
         bitmap1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.player1);
         bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.player2);
 
-        positionY = 0;
-
-        drawCounter = 0;
-        drawBitmap1 = true;
-
-        status = Status.FREE;
-
-        gameover = false;
+        init();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
@@ -63,7 +56,7 @@ public class Player {
 
         // ブロックに衝突したらゲームオーバー
         if (ground.clash(positionY)) {
-            gameover = true;
+            callback.gameover();
         }
 
         // statusに合わせてpostionYを計算する。
@@ -140,16 +133,10 @@ public class Player {
         positionY += 10;
     }
 
-    boolean gameover() {
-        return gameover;
-    }
-
-    void reStart() {
+    void init() {
         positionY = 0;
         drawCounter = 0;
         drawBitmap1 = true;
         status = Status.FREE;
-
-        gameover = false;
     }
 }

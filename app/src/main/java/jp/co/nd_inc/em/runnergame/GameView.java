@@ -23,6 +23,7 @@ public class GameView extends View {
     private Player player;
     private Score score;
 
+    private boolean gameover;
 
     // ゲーム領域の幅（ピクセル）
     static final float WIDTH = 800f;
@@ -45,15 +46,22 @@ public class GameView extends View {
 
         // ゲームオブジェクトの生成
         ground = new Ground(context);
-        player = new Player(context, ground);
+        player = new Player(context, ground, new Callback() {
+            @Override
+            public void gameover() {
+                gameover = true;
+            }
+        });
         score = new Score(context);
+
+        gameover = true;
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
                         // ゲームオーバー状態なら描画しない
-                        if (player.gameover()) {
+                        if (gameover) {
                             return;
                         }
 
@@ -89,8 +97,10 @@ public class GameView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (player.gameover()) {
-                    player.reStart();
+                if (gameover) {
+                    gameover = false;
+
+                    restart();
                     break;
                 }
                 player.touchDown();
@@ -100,5 +110,15 @@ public class GameView extends View {
                 break;
         }
         return true;
+    }
+
+    private void restart() {
+        ground.init();
+        player.init();
+        score.init();
+    }
+
+    interface Callback {
+        void gameover();
     }
 }

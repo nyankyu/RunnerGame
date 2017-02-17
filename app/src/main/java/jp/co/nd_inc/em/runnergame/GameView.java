@@ -46,7 +46,7 @@ public class GameView extends View {
         // ゲームオブジェクトの生成
         ground = new Ground(context);
         player = new Player(context, ground);
-        score = new Score();
+        score = new Score(context);
 
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {

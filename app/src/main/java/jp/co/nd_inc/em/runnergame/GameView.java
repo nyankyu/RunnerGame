@@ -2,21 +2,15 @@ package jp.co.nd_inc.em.runnergame;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
 public class GameView extends View {
     private static final String TAG = "GameView";
-
-    private ScheduledExecutorService scheduledExecutorService;
-    private Paint paint;
 
     // ゲームオブジェクト達
     private Ground ground;
@@ -40,10 +34,6 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
 
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(50);
-
         // ゲームオブジェクトの生成
         ground = new Ground(context);
         player = new Player(context, ground, new Callback() {
@@ -56,8 +46,8 @@ public class GameView extends View {
 
         gameover = true;
 
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+        Executors.newSingleThreadScheduledExecutor()
+                .scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
                         // ゲームオーバー状態なら描画しない

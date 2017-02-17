@@ -1,6 +1,5 @@
 package jp.co.nd_inc.em.runnergame;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,10 +7,9 @@ import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
-import android.util.Log;
 
 
-public class Player {
+class Player {
     private Bitmap bitmap1;
     private Bitmap bitmap2;
 
@@ -20,7 +18,8 @@ public class Player {
     private int drawCounter;
     private boolean drawBitmap1;
 
-    private enum Status {GROUND, JUMP, FREE};
+    private enum Status {GROUND, JUMP, FREE}
+
     private Status status;
 
     private Ground ground;
@@ -62,15 +61,12 @@ public class Player {
         // statusに合わせてpostionYを計算する。
         switch (status) {
             case GROUND:
-                Log.d("Player", "status : ground");
                 break;
             case JUMP:
-                calcJumpPostion();
-                Log.d("Player", "status : jump");
+                calcJumpPosition();
                 break;
             case FREE:
-                calcFreePostion();
-                Log.d("Player", "status : free");
+                calcFreePosition();
                 break;
         }
 
@@ -100,18 +96,16 @@ public class Player {
         }
 
         // 接地しているか？
-        int groundPostion = ground.getGroundPosition();
-        if (positionY + 100 >= groundPostion) {
-            positionY = groundPostion - 100;
+        int groundPosition = ground.getGroundPosition();
+        if (positionY + 100 >= groundPosition) {
+            positionY = groundPosition - 100;
             status = Status.GROUND;
         } else {
             status = Status.FREE;
         }
     }
 
-    public void touchDown() {
-        Log.d("Play", "touchDown");
-
+    void touchDown() {
         if (status == Status.GROUND) {
             status = Status.JUMP;
             soundPool.play(jumpSound, 1.0f, 1.0f, 1, 0, 1.0f);
@@ -119,17 +113,15 @@ public class Player {
         }
     }
 
-    public void touchUp() {
-        Log.d("Play", "touchUp");
-
+    void touchUp() {
         status = Status.FREE;
     }
 
-    private void calcJumpPostion() {
+    private void calcJumpPosition() {
         positionY -= 10;
     }
 
-    private void calcFreePostion() {
+    private void calcFreePosition() {
         positionY += 10;
     }
 

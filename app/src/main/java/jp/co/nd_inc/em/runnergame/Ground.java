@@ -92,7 +92,7 @@ class Ground {
         return newLevel;
     }
 
-    public int getGroundPosition() {
+    int getGroundPosition() {
         int currentLevel;
         if (offsetX < 35) {
             currentLevel = level[0];

@@ -9,9 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
-public class GameView extends View {
-    private static final String TAG = "GameView";
-
+class GameView extends View {
     // ゲームオブジェクト達
     private Ground ground;
     private Player player;
@@ -39,6 +37,7 @@ public class GameView extends View {
         player = new Player(context, ground, new Callback() {
             @Override
             public void gameover() {
+                score.saveHighscore();
                 gameover = true;
             }
         });

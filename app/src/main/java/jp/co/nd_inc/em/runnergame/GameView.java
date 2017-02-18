@@ -2,9 +2,13 @@ package jp.co.nd_inc.em.runnergame;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.annotation.NonNull;
+import android.text.InputType;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.concurrent.Executors;
@@ -36,6 +40,7 @@ class GameView extends View {
 
         // ゲームオブジェクトの生成
         ground = new Ground(context);
+        score = new Score(context);
         player = new Player(context, ground, new Callback() {
             @Override
             public void gameover() {
@@ -43,19 +48,9 @@ class GameView extends View {
 
                 boolean highscore = score.saveHighscore();
 
-                MaterialDialog.Builder builder =
-                        new MaterialDialog.Builder(context)
-                            .title("ゲームオーバー")
-                            .positiveText("OK");
-
-                if (highscore) {
-                    builder.content("ハイスコア更新!!!");
-                }
-                builder.show();
-
+                showGameOverDialog(context, highscore);
             }
         });
-        score = new Score(context);
 
         gameover = true;
 
@@ -72,6 +67,40 @@ class GameView extends View {
                         postInvalidate();
                     }
                 }, 0, INTERVAL, TimeUnit.MILLISECONDS);
+    }
+
+    private void showGameOverDialog(Context context, boolean highscore) {
+        MaterialDialog.Builder builder =
+                new MaterialDialog.Builder(context)
+                        .title("ゲームオーバー")
+                        .autoDismiss(false)
+                        .positiveText("OK");
+
+        if (highscore) {
+            builder.content("ハイスコア更新!!!")
+            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    Log.d("OK", "OK");
+                }
+            })
+            .inputType(InputType.TYPE_CLASS_TEXT)
+            .input("ユーザー名", "", new MaterialDialog.InputCallback() {
+                @Override
+                public void onInput(MaterialDialog dialog, CharSequence input) {
+                    Log.d("input", input.toString());
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        builder.show();
     }
 
     @Override

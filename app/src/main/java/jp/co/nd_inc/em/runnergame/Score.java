@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 
 class Score {
@@ -38,11 +39,15 @@ class Score {
         canvas.drawText(str, 480, 40, paint);
     }
 
-    void save() {
-        sp.edit().putLong("highscore", score).commit();
-    }
+    void saveHighscore() {
+        long highscore = sp.getLong("highscore", 0);
 
-    long load() {
-        return sp.getLong("heighscore", 0);
+        if (highscore >= score) {
+            return;
+        }
+
+        // ハイスコアの更新
+        Log.d("High Score", String.valueOf(score));
+        sp.edit().putLong("highscore", score).commit();
     }
 }

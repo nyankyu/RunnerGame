@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +31,7 @@ class GameView extends View {
     // 画面サイズに合わせるための縮尺
     private float mScale = 0;
 
-    public GameView(Context context) {
+    public GameView(final Context context) {
         super(context);
 
         // ゲームオブジェクトの生成
@@ -37,13 +39,26 @@ class GameView extends View {
         player = new Player(context, ground, new Callback() {
             @Override
             public void gameover() {
-                score.saveHighscore();
                 gameover = true;
+
+                boolean highscore = score.saveHighscore();
+
+                MaterialDialog.Builder builder =
+                        new MaterialDialog.Builder(context)
+                            .title("ゲームオーバー")
+                            .positiveText("OK");
+
+                if (highscore) {
+                    builder.content("ハイスコア更新!!!");
+                }
+                builder.show();
+
             }
         });
         score = new Score(context);
 
         gameover = true;
+
 
         Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(new Runnable() {

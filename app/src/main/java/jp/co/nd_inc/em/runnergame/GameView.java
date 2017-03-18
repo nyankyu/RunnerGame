@@ -20,6 +20,7 @@ class GameView extends View {
     private Ground ground;
     private Player player;
     private Score score;
+    private Background background;
 
     private boolean gameover;
 
@@ -41,6 +42,7 @@ class GameView extends View {
         // ゲームオブジェクトの生成
         ground = new Ground(context);
         score = new Score(context);
+        background = new Background(context);
         player = new Player(context, ground, new Callback() {
             @Override
             public void gameover() {
@@ -115,6 +117,7 @@ class GameView extends View {
         canvas.clipRect(0, 0, WIDTH, HEIGHT);
 
         // ゲームオブジェクトの描画
+        background.draw(canvas);
         ground.draw(canvas);
         player.draw(canvas);
         score.draw(canvas);

@@ -17,6 +17,8 @@ class Player {
 
     private int drawCounter;
     private boolean drawBitmap1;
+    private int jumpingTime;
+    private int velocity;
 
     private enum Status {GROUND, JUMP, FREE}
 
@@ -63,9 +65,12 @@ class Player {
             case GROUND:
                 break;
             case JUMP:
+                jumpingTime++;
+                velocity = -10;
                 calcJumpPosition();
                 break;
             case FREE:
+                velocity = 10;
                 calcFreePosition();
                 break;
         }
@@ -90,15 +95,21 @@ class Player {
     }
 
     private void selectStatus() {
-        // ジャンプ中はtouchUpするまでジャンプし続ける
+
         if (status == Status.JUMP) {
+            // ジャンプしている時間が閾値を超えたらジャンプやめ
+            if (jumpingTime >= 30) {
+                status = Status.FREE;
+                jumpingTime = 0;
+            }
+
             return;
         }
 
         // 接地しているか？
-        int groundPosition = ground.getGroundPosition();
-        if (positionY + 100 >= groundPosition) {
-            positionY = groundPosition - 100;
+        int groundPosition = ground.getPositionUnderPlayer();
+        if (positionY >= groundPosition) {
+            positionY = groundPosition;
             status = Status.GROUND;
         } else {
             status = Status.FREE;
@@ -106,11 +117,17 @@ class Player {
     }
 
     void touchDown() {
-        if (status == Status.GROUND) {
-            status = Status.JUMP;
-            soundPool.play(jumpSound, 1.0f, 1.0f, 1, 0, 1.0f);
-            positionY -= 1;
+        // 接地していなければ何もしない
+        if (status != Status.GROUND) {
+            return;
         }
+
+        // ジャンプ開始
+        status = Status.JUMP;
+        jumpingTime = 0;
+        velocity = -10;
+        soundPool.play(jumpSound, 1.0f, 1.0f, 1, 0, 1.0f);
+        positionY -= 1;
     }
 
     void touchUp() {
@@ -118,15 +135,16 @@ class Player {
     }
 
     private void calcJumpPosition() {
-        positionY -= 10;
+        positionY += velocity;
     }
 
     private void calcFreePosition() {
-        positionY += 10;
+        positionY += velocity;
     }
 
     void init() {
         positionY = 0;
+        velocity = 10;
         drawCounter = 0;
         drawBitmap1 = true;
         status = Status.FREE;

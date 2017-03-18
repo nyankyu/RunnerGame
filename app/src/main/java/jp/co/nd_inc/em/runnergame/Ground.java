@@ -92,7 +92,8 @@ class Ground {
         return newLevel;
     }
 
-    int getGroundPosition() {
+    // プレイヤーの足元のブロックの高さ
+    int getPositionUnderPlayer() {
         int currentLevel;
         if (offsetX < 35) {
             currentLevel = level[0];
@@ -101,7 +102,7 @@ class Ground {
         } else {
             currentLevel = level[1];
         }
-        return (int) (GameView.HEIGHT - currentLevel * 100);
+        return (int) (GameView.HEIGHT - currentLevel * 100) - 100;
     }
 
     boolean clash(int playerPosition) {
